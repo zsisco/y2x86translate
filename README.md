@@ -1,9 +1,6 @@
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        y2x86translate
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-y86 to x86 binary translator
-Author: Zach Sisco
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# y2x86translate
+## y86 to x86 binary translator
+## Author: Zach Sisco
 
 y2x86translate takes a y86 binary file and lifts the op codes to x86. 
 With the x86 op codes, the translator lifts the program to VEX-IR. 
