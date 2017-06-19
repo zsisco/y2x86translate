@@ -30,11 +30,9 @@ OVERVIEW
 ~~~~~~~~~~~~~~
 (I) Motivation
 ~~~~~~~~~~~~~~
-y2x86translate exists as part of RATS (a Reversing Analysis Tool Suite). This 
-tool helps lift y86 binary code to an intermediate representation (IR). At the 
-time of writing, RATS supports higher-level analyses (like taint analysis and 
-forward symbolic execution) using the VEX-IR. VEX is the intermediate language 
-used by Valgrind, a dynamic binary instrumentation tool [1]. Angr, a binary 
+y2x86translate helps lift y86 binary code to an intermediate representation (IR). 
+At the time of writing, this tool supports lifting to VEX-IR. VEX is the intermediate 
+language used by Valgrind, a dynamic binary instrumentation tool [1]. Angr, a binary 
 analysis framework, also uses VEX-IR for performing analyses on binary code [2].
 An overview of VEX-IR is found here: https://docs.angr.io/docs/ir.html 
 A more detailed specification of VEX-IR is found here: 
@@ -64,8 +62,7 @@ unconditional jumps in x86. The implementation (Section III) handles these
 differences. 
 
 Additionally, y2x86translate supports "extended" y86 ISA with limited system 
-calls. To support the emulator component of the RATS toolchain (developed by 
-Jacob Saunders) which allows basic system calls in y86 such as print, and file 
+calls---allowing basic system calls in y86 such as print, and file 
 input and output, y2x86translate reflexively maps the "int 0x80" instruction 
 (opcode CD80). 
 
@@ -107,7 +104,7 @@ will then be independent of any changes to the x86 instruction set architecture
 that may break the mappings in y2x86translate. 
 
 Additionally, the binary translator can be used for lifting y86 to other IR's 
-that support x86. This is useful if RATS supports other IR's in the future.
+that support x86. 
 
 ~~~~~~~~~~~~~~
 (V) References
