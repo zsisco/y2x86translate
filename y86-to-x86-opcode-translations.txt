@@ -1,0 +1,63 @@
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+y86 to x86 opcode translations
+Author: Zach Sisco
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Variables:
+ . registers: r, s, t, ...
+ . byte of data (immediate, address, offset): A, B, C, D, E, ...
+ . dummy value for y86 opcodes: X
+
+Register reference:
+eax ecx edx ebx esp ebp esi edi
+ 0   1   2   3   4   5   6   7 
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+MNEMONIC             Y86-OP   -> X86-OP
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+halt                 00       -> f4
+nop                  10       -> 90
+
+rrmovl r, s          20rs     -> 89 bin(11 r s)  
+                            e.g. 89 d3 = mov %ebx,%edx
+
+cmovle r, s          21rs     -> 0f 4e bin(11 r s)
+cmovl  r, s          22rs     -> 0f 4c bin(11 r s)
+cmove  r, s          23rs     -> 0f 44 bin(11 r s)
+cmovne r, s          24rs     -> 0f 45 bin(11 r s)
+cmovge r, s          25rs     -> 0f 4d bin(11 r s)
+cmovg  r, s          26rs     -> 0f 4f bin(11 r s)
+
+irmovl ABCD, r       30XrDCBA -> b8+r DCBA  
+                            e.g. 
+                                 b8 60 96 04 08 = mov $0x8049660,%eax
+                                 ba 00 00 00 00 = mov $0x0,%edx
+
+rmmovl r, 0xABCD(s)  40rsDCBA -> 89 bin(10 r s) DCBA
+                            e.g. 89 83 fc ff ff ff = mov eax,-0x4(%ebx)
+
+mrmovl 0xABCD(s), r  50rsDCBA -> 8b bin(10 r s) DCBA
+                            e.g. 8b 83 fc ff ff ff = mov -0x4(%ebx),%eax
+
+addl r, s            60rs     -> 01 bin(11 r s)
+subl r, s            61rs     -> 29 bin(11 r s)
+andl r, s            62rs     -> 21 bin(11 r s)
+xorl r, s            63rs     -> 31 bin(11 r s)
+                            e.g. 01 d0 = bin(0000 0001 11 010 000) = add %edx,%eax 
+
+jmp ABCD             70DCBA   -> FAR  -> ff 25 EFGH 
+                                 NEAR -> e9 EFGH
+jle ABCD             71DCBA   -> 0f 8e EFGH=[signed offset from this_address+6 to ABCD]
+jl  ABCD             72DCBA   -> 0f 8c EFGH=[signed offset from this_address+6 to ABCD]
+je  ABCD             73DCBA   -> 0f 84 EFGH=[signed offset from this_address+6 to ABCD]
+jne ABCD             74DCBA   -> 0f 85 EFGH=[signed offset from this_address+6 to ABCD]
+jge ABCD             75DCBA   -> 0f 8d EFGH=[signed offset from this_address+6 to ABCD]
+jg  ABCD             76DCBA   -> 0f 8f EFGH=[signed offset from this_address+6 to ABCD]
+
+call ABCD            80DCBA   -> e8 EFGH=[signed 32-bit offset from this_address+5 to ABDC]
+ret                  90       -> c3
+pushl r              A0rX     -> 50+r
+popl  r              B0rX     -> 58+r
+
+int 0x80             CD80     -> CD80

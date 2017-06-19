@@ -1,0 +1,8 @@
+0x00: irmovl esp, 0x80: 30 84 80 00 00 00 //Store 0x80 as stack pointer.     00: bc 80 00 00 00
+0x06: irmovl eax, 0x57: 30 80 57 00 00 00 //Store 0x50 in eax.               05: b8 57 00 00 00
+0x0C: pushl eax: A0 0F                    //Push eax, 0x80 to the stack.     0a: 50
+0x0E: popl ebx: B0 3F                     //Pop 0x80 to ebx.                 0b: 5b
+0x10: call 0x16: 80 16 00 00 00           //Jump to 0x16 and push 0x15       0c: e8 01 00 00 00
+0x15: hlt: 00                             //Halt.                            11: f4
+0x16: ret: 90                             //Jump back to halt.               12: c3 
+

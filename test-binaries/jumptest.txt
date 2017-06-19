@@ -1,0 +1,12 @@
+0x00: jmp 0x06: 70 06 00 00 00           //Jump past halt.                     00: e9 01 00 00 00
+0x05: hlt 00                                                                   05: f4
+
+0x06: irmovl eax 0x02: 30 80 02 00 00 00 //Put 2 in EAX                        06: b8 02 00 00 00
+0x0C: irmovl ebx 0x03: 30 83 03 00 00 00 //Put 3 in EBX                        0b: bb 03 00 00 00
+0x12: subl eax, ebx: 61 03               //EBX = EBX-EAX. EBX = 1.             10: 29 c3
+0x14: jge 0x1A: 75 1A 00 00 00           //Jump to 1A since EBX-EAX >= 0       12: 0f 8d 01 00 00 00
+0x19: hlt 00                                                                   18: f4
+
+0x1A: subl eax, ebx: 61 03               //EBX = EBX-EAX. EBX = -1.            19: 29 c3
+0x1C: jl 0x05: 72 05 00 00 00            //Jump to 0x05 since EBX-EAX = -1.    1b: 0f 8c e4 ff ff ff
+0x21:                                                                          21: 

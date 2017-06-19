@@ -1,0 +1,10 @@
+nop: 10                                                       90
+xorl eax, eax: 63 00                      //Clear EAX.        31 C0
+xorl ebx, ebx: 63 33                      //Clear EBX.        31 DB
+irmovl 0x00000002, eax: 30 80 02 00 00 00 //Store 2 in EAX.   B8 02 00 00 00
+irmovl 0x00000003, ebx: 30 83 03 00 00 00 //Store 3 in EBX.   BB 03 00 00 00
+addl ebx, eax: 60 30         //EBX + EAX -> EAX (3 + 2 = 5)   01 D8
+subl ebx, eax: 61 30         //EAX - EBX -> EAX (5 - 3 = 2)   29 D8
+andl ebx, eax: 62 30        //EAX & EBX -> EAX (3 && 2 = 2)   21 D8
+halt: 00                                                      F4 
+
